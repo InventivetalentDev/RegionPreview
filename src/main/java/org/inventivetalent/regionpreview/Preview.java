@@ -1,6 +1,7 @@
 package org.inventivetalent.regionpreview;
 
 import org.inventivetalent.nbt.CompoundTag;
+import org.inventivetalent.nbt.NBTTag;
 import org.inventivetalent.nbt.stream.NBTInputStream;
 import picocli.CommandLine;
 
@@ -110,8 +111,16 @@ public class Preview implements Callable<Boolean> {
 								try (NBTInputStream nbtIn = new NBTInputStream(dataIn)) {
 									CompoundTag rootTag = (CompoundTag) nbtIn.readNBTTag();
 									if (rootTag != null) {
-										CompoundTag levelTag = rootTag.getCompound("Level");
-										Chunk chunk = new Chunk(levelTag);
+										Chunk chunk;
+										if(rootTag.has("DataVersion")) {// 1.13+
+											NBTTag dataVersionTag = rootTag.get("DataVersion");
+
+											CompoundTag levelTag = rootTag.getCompound("Level");
+											chunk = new Chunk13(levelTag);
+										}else{// Pre 1.13
+											CompoundTag levelTag = rootTag.getCompound("Level");
+											chunk = new Chunk12(levelTag);
+										}
 
 										for (int xx = 0; xx < 16; xx += scale) {
 											for (int zz = 0; zz < 16; zz += scale) {
