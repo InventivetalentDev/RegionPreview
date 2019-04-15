@@ -5,7 +5,6 @@ import org.inventivetalent.nbt.ListTag;
 
 public class Chunk13 extends Chunk {
 
-
 	ChunkSection[] sections;
 
 	public Chunk13(CompoundTag levelTag) {
@@ -16,6 +15,5 @@ public class Chunk13 extends Chunk {
 			this.sections[i] = new ChunkSection13(sectionsTag.get(i));
 		}
 	}
-
 
 }

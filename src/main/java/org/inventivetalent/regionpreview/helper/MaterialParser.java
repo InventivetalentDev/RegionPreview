@@ -21,10 +21,10 @@ public class MaterialParser {
 
 				String[] splitB = line.split("MaterialMapColor.");
 				String[] splitC = splitB[1].split("\\)\\)");
-				String mapColor =splitC[0].trim();
+				String mapColor = splitC[0].trim();
 
 				mapped.put(name, mapColor);
-				System.out.println("put(\""+name+"\",\""+mapColor+"\");");
+				System.out.println("put(\"" + name + "\",\"" + mapColor + "\");");
 			}
 		}
 		System.out.println(mapped);

@@ -3,7 +3,7 @@ package org.inventivetalent.regionpreview;
 import org.inventivetalent.nbt.CompoundTag;
 import org.inventivetalent.nbt.ListTag;
 
-public class Chunk12 extends Chunk{
+public class Chunk12 extends Chunk {
 
 	public Chunk12(CompoundTag levelTag) {
 		super();

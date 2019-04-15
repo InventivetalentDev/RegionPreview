@@ -16,22 +16,20 @@ public class IdParser {
 		try (BufferedReader in = new BufferedReader(new InputStreamReader(MaterialMapColorParser.class.getResourceAsStream("/Block_old_class.txt")))) {
 			String line;
 			while ((line = in.readLine()) != null) {
-				if(!line.startsWith("a("))continue;
+				if (!line.startsWith("a(")) { continue; }
 				line = line.substring("a(".length());
 
 				String[] splitA = line.split(",");
 				String idString = splitA[0].trim();
-				String name = splitA[1].replace("\"","").trim();
+				String name = splitA[1].replace("\"", "").trim();
 				Integer id = Integer.parseInt(idString);
 
-
-				mapped.put(id,name);
-				System.out.println("put("+id+",\""+name+"\");");
+				mapped.put(id, name);
+				System.out.println("put(" + id + ",\"" + name + "\");");
 			}
 		}
 		System.out.println(mapped);
 		System.out.println(new Gson().toJson(mapped));
 	}
-
 
 }

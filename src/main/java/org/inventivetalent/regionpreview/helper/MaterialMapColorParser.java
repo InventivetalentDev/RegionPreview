@@ -24,7 +24,7 @@ public class MaterialMapColorParser {
 				int value = Integer.parseInt(valueString);
 
 				mapped.put(name, value);
-				System.out.println("put(\""+name+"\","+value+");");
+				System.out.println("put(\"" + name + "\"," + value + ");");
 			}
 		}
 		System.out.println(mapped);

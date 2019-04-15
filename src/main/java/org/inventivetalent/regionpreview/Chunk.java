@@ -7,9 +7,13 @@ public abstract class Chunk {
 	public Chunk() {
 	}
 
+	static int blockOffset(int x, int y, int z) {
+		return x | ((z | ((y & 0xF) << 4)) << 4);
+	}
+
 	public int getHighestColorAt(int x, int z) {
 		int highest = getHighestBlockAt(x, z);
-		if(highest>=0) {
+		if (highest >= 0) {
 			return getColorAt(x, highest, z);
 		}
 		return 0;
@@ -34,10 +38,6 @@ public abstract class Chunk {
 			}
 		}
 		return -1;
-	}
-
-	static int blockOffset(int x, int y, int z) {
-		return x | ((z | ((y & 0xF) << 4)) << 4);
 	}
 
 }
