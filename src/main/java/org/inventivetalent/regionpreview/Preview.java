@@ -33,56 +33,6 @@ public class Preview implements Callable<Boolean> {
 						description = "Output directory for generated images")
 	private File output = new File(".");
 
-	public static BufferedImage makeImageForRegionFile(File file, int scale) throws Exception {
-		float iScale = 1f / scale;
-		BufferedImage image = new BufferedImage((int) Math.floor(512 * iScale), (int) Math.floor(512 * iScale), BufferedImage.TYPE_INT_RGB);
-
-		try (RegionFile regionFile = new RegionFile(file)) {
-			for (int x = 0; x < 32; x++) {
-				for (int z = 0; z < 32; z++) {
-					if (regionFile.hasChunk(x, z)) {
-						try (DataInputStream dataIn = regionFile.getChunkDataInputStream(x, z)) {
-							if (dataIn != null) {
-								try (NBTInputStream nbtIn = new NBTInputStream(dataIn)) {
-									CompoundTag rootTag = (CompoundTag) nbtIn.readNBTTag();
-									if (rootTag != null) {
-										Chunk chunk;
-										if (rootTag.has("DataVersion")) {// 1.13+
-											NBTTag dataVersionTag = rootTag.get("DataVersion");
-
-											CompoundTag levelTag = rootTag.getCompound("Level");
-											chunk = new Chunk13(levelTag);
-										} else {// Pre 1.13
-											CompoundTag levelTag = rootTag.getCompound("Level");
-											chunk = new Chunk12(levelTag);
-										}
-
-										for (int xx = 0; xx < 16; xx += scale) {
-											for (int zz = 0; zz < 16; zz += scale) {
-
-												int highest = chunk.getHighestBlockAt(xx, zz);
-												int color = 0;
-												if (highest > 0) {
-													color = chunk.getColorAt(xx, highest, zz);
-												}
-
-												float fX = (xx + x * 16) * iScale;
-												float fZ = (zz + z * 16) * iScale;
-												image.setRGB((int) Math.floor(fX), (int) Math.floor(fZ), color);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return image;
-	}
-
 	@Override
 	public Boolean call() throws Exception {
 		if (input == null || input.length == 0) {
@@ -146,6 +96,56 @@ public class Preview implements Callable<Boolean> {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public static BufferedImage makeImageForRegionFile(File file, int scale) throws Exception {
+		float iScale = 1f / scale;
+		BufferedImage image = new BufferedImage((int) Math.floor(512 * iScale), (int) Math.floor(512 * iScale), BufferedImage.TYPE_INT_RGB);
+
+		try (RegionFile regionFile = new RegionFile(file)) {
+			for (int x = 0; x < 32; x++) {
+				for (int z = 0; z < 32; z++) {
+					if (regionFile.hasChunk(x, z)) {
+						try (DataInputStream dataIn = regionFile.getChunkDataInputStream(x, z)) {
+							if (dataIn != null) {
+								try (NBTInputStream nbtIn = new NBTInputStream(dataIn)) {
+									CompoundTag rootTag = (CompoundTag) nbtIn.readNBTTag();
+									if (rootTag != null) {
+										Chunk chunk;
+										if (rootTag.has("DataVersion")) {// 1.13+
+											NBTTag dataVersionTag = rootTag.get("DataVersion");
+
+											CompoundTag levelTag = rootTag.getCompound("Level");
+											chunk = new Chunk13(levelTag);
+										} else {// Pre 1.13
+											CompoundTag levelTag = rootTag.getCompound("Level");
+											chunk = new Chunk12(levelTag);
+										}
+
+										for (int xx = 0; xx < 16; xx += scale) {
+											for (int zz = 0; zz < 16; zz += scale) {
+
+												int highest = chunk.getHighestBlockAt(xx, zz);
+												int color = 0;
+												if (highest > 0) {
+													color = chunk.getColorAt(xx, highest, zz);
+												}
+
+												float fX = (xx + x * 16) * iScale;
+												float fZ = (zz + z * 16) * iScale;
+												image.setRGB((int) Math.floor(fX), (int) Math.floor(fZ), color);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return image;
 	}
 
 }
