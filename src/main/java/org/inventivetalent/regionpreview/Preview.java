@@ -79,6 +79,11 @@ public class Preview implements Callable<Boolean> {
 			System.err.println("File " + file + " does not appear to be a region file (no .mca extension) - skipping");
 			return false;
 		}
+		File outFile = new File(output, file.getPath() + ".png");
+		if (outFile.exists()) {
+			return false;
+		}
+
 		System.out.println("Working on " + file + "...");
 
 		BufferedImage image;
@@ -89,7 +94,7 @@ public class Preview implements Callable<Boolean> {
 			return false;
 		}
 
-		try (FileOutputStream out = new FileOutputStream(new File(output, file.getPath() + ".png"))) {
+		try (FileOutputStream out = new FileOutputStream(outFile)) {
 			ImageIO.write(image, "png", out);
 			return true;
 		} catch (IOException e) {
