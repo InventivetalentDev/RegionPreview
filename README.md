@@ -49,5 +49,5 @@ java -jar region-preview.jar world/region/ -s 2
 
 To stitch together multiple images into one large image, use the --stitch... options, e.g. to create a 4x2 region image starting at -2,-1: 
 ```
-java -jar java -jar region-preview.jar world/region/ -s 2 --stitchStartX=-2 --stitchStartZ=-1 --stitchWidth=4 --stitchHeight=2
+java -jar java -jar region-preview.jar world/region/ -s 2 --stitch --stitchStartX=-2 --stitchStartZ=-1 --stitchWidth=4 --stitchHeight=2
 ```
