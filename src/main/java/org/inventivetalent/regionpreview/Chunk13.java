@@ -5,8 +5,6 @@ import org.inventivetalent.nbt.ListTag;
 
 public class Chunk13 extends Chunk {
 
-	ChunkSection[] sections;
-
 	public Chunk13(CompoundTag levelTag) {
 		super();
 		ListTag<CompoundTag> sectionsTag = levelTag.getList("Sections");
