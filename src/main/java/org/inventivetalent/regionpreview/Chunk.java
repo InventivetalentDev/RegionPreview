@@ -2,7 +2,7 @@ package org.inventivetalent.regionpreview;
 
 public abstract class Chunk {
 
-	ChunkSection[] sections;
+	ChunkSection[] sections = new ChunkSection[0];
 
 	public Chunk() {
 	}
